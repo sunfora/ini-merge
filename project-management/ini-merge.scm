@@ -1,12 +1,13 @@
-(use-modules (ini)
-             (ice-9 match)
-             (srfi srfi-1))
+(define-module (project-management ini-merge)
+  #:use-module (ini)
+  #:use-module (ice-9 match)
+  #:use-module (srfi srfi-1)
+  #:export (main))
 
 (define-syntax push!
   (syntax-rules ()
     ((_ item lst)
      (set! lst (cons item lst)))))
-
 
 (define-syntax for-match
   (syntax-rules ()
