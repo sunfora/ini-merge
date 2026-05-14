@@ -11,7 +11,7 @@ if [ -z "${GUIX_ENVIRONMENT:-}" ]; then
 fi
 
 # The pure execution pipeline used by both you and the build jail:
-guile -e main -s src/ini-merge.scm tests/base.ini tests/override.ini > tests/actual.tmp
+guile -e main -s src/project-management/ini-merge.scm tests/base.ini tests/override.ini > tests/actual.tmp
 
 echo "Comparing script output against cached expected.ini baseline..."
 
