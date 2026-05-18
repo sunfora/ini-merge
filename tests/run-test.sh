@@ -11,16 +11,28 @@ if [ -z "${GUIX_ENVIRONMENT:-}" ]; then
 fi
 
 # The pure execution pipeline used by both you and the build jail:
-guile -e main -s src/project-management/ini-merge.scm tests/base.ini tests/override.ini > tests/actual.tmp
 
-echo "Comparing script output against cached expected.ini baseline..."
+export GUILE_LOAD_PATH=".:$GUILE_LOAD_PATH"
+
+# Test overrides 
+guile -s main.scm tests/base.ini tests/override.ini > tests/actual.tmp
 
 if diff -u tests/expected.ini tests/actual.tmp; then
-    echo "SUCCESS: Output matches cached version perfectly!"
+    echo "SUCCESS[override]"
     rm -f tests/actual.tmp
-    exit 0
 else
-    echo "FAILURE: Output does not match cached version!"
+    echo "FAILURE[override]: Output does not match cached version!"
+    rm -f tests/actual.tmp
+    exit 1
+fi
+
+# Test one param normalization 
+guile -s main.scm tests/base.ini > tests/actual.tmp
+if diff -u tests/expected_solo.ini tests/actual.tmp; then
+    echo "SUCCESS[solo]"
+    rm -f tests/actual.tmp
+else
+    echo "FAILURE[solo]: Output does not match cached version!"
     rm -f tests/actual.tmp
     exit 1
 fi

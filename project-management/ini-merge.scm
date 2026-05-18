@@ -80,9 +80,9 @@
   result)
 
 (define (main args)
-  (if (< (length args) 3)
+  (if (< (length args) 2)
       (begin
-        (format (current-error-port) "Usage: merge-ini.scm base.ini override1.ini [override2.ini ...]\n")
+        (format (current-error-port) "Usage: merge-ini.scm base.ini [override1.ini override2.ini ...]\n")
         (exit 1)))
   
   (define files (cdr args))
